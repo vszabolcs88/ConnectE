@@ -1,9 +1,9 @@
 <template>
-    <form class="create-post" v-on:submit.prevent="submitForm" enctype="multipart/form-data">
+    <form ref="createForm" class="create-post" v-on:submit.prevent="submitForm" enctype="multipart/form-data">
         <label for="ttext">Title</label>
-        <input type="text" name="ttext" id="ttext" v-model="title" required>
+        <input type="text" name="ttext" id="ttext" v-model="title" >
         <label for="ptext">Post</label>
-        <input type="text" name="ptext" id="ptext" v-model="body" required>
+        <input type="text" name="ptext" id="ptext" v-model="body" >
         <input type="file" name="image" id="image" @change="onFileSelected">
         <div class="buttons">
             <input type="submit" value="Submit">
@@ -26,16 +26,16 @@ export default {
             console.log(this.imgFile);
         },
         submitForm() {
+            //const form = this.$refs.createForm;
             // Post request using fetch with error handling
             const fd = new FormData();
             //append the image as a file
-            fd.append("uploadFile", this.imgFile);
+            fd.append('imgFile', this.imgFile);
             //create a dataset
             const data = {title: this.title, body: this.body};
             //append the dataset as json
-            fd.append("otherFields", JSON.stringify(data));
+            fd.append('otherFields', JSON.stringify(data));
             
-
             let myToken_deserialized = JSON.parse(localStorage.getItem('myToken'));
             if(myToken_deserialized  === null || undefined) {
                 this.$router.push('/login');
@@ -48,14 +48,11 @@ export default {
                 fetch("http://localhost:3000/api/posts", {
                 method: 'POST',
                 headers: myHeaders,
-                body: data
+                data: fd
                 })
                 .then((response) => response.json())
                 .then((data) =>  {
                     console.log("Success: ", data);
-                    this.title = '';
-                    this.body = '';
-                    this.imgUrl= ''
                 })
                 .catch((error) => {
                     console.log(error);

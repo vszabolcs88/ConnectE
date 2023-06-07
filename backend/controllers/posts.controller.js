@@ -20,7 +20,7 @@ exports.getPost = (req, res, next) => {
 
 //Create a post:
 exports.createPost = (req, res, next) => {
-    let incomingData = req.body;
+    let incomingData = req.body
     console.log(incomingData);
     
     //physical path to image directory

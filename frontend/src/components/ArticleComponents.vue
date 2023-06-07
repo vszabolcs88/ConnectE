@@ -27,7 +27,6 @@
             //pull the token from localstorage
            
             let myToken_deserialized = JSON.parse(localStorage.getItem("myToken"));
-            console.log(myToken_deserialized.id);
             
             if (myToken_deserialized === null || undefined) {
                 this.$router.push('/login');

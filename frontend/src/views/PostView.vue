@@ -5,7 +5,7 @@
         <div v-if="post">
             <h3>Title: <span>{{ post[0].title }}</span></h3>
             <h3>Post: <span>{{ post[0].body }}</span></h3>
-            //add userId hidden
+            <p>UserId: {{ userId }}</p>
             <button @click="deletePost">Delete</button>
         </div>
         <div v-else>
@@ -21,16 +21,19 @@ export default {
     props:['id'],
     data() {
         return {
-            post: null
+            post: null,
+            userId: null
         }
     },
     mounted() {
 
         let myToken_deserialized = JSON.parse(localStorage.getItem("myToken"));
+        console.log(myToken_deserialized);
 
         if(myToken_deserialized === null || undefined) {
             this.$router.push('/login');
         } else {
+            this.userId = myToken_deserialized.id;
             const myHeaders = new Headers({
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + myToken_deserialized.token
