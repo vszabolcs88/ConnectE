@@ -1,6 +1,7 @@
 <template>
     <div class="container__article">
         <article v-for="article in articles" :key="article.id">
+          <p>User: {{ article.userId }}</p>  
           <a :href="url + article.id"><h2>{{ article.title }}</h2></a>
           <p>{{ article.body }}</p>
           <div class="article__img__container">
@@ -8,8 +9,6 @@
           </div>
         </article>
     </div>
-    
-    
 </template>
 
 <script>

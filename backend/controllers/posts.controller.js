@@ -26,8 +26,8 @@ exports.createPost = (req, res, next) => {
     //physical path to image directory
     //req.file.filename
   
-    post = {title: req.body.title, body: req.body.body, imgUrl: req.body.imgFile, userId: req.auth.userId}; 
-    let sql = "INSERT INTO posts SET ?";
+    post = {title: req.body.title, body: req.body.body, imgUrl: req.body.imgFile, userId: req.auth.userId,}; 
+    let sql ="INSERT INTO posts SET ?";
     let query = db.query(sql, post, (err, result) => {
     if(err) throw err;
     res.send(result);
@@ -36,11 +36,27 @@ exports.createPost = (req, res, next) => {
 
 //Delete a post:
 exports.deletePost = (req,res, next) => {
-  let sql = `DELETE  FROM posts WHERE id= ${req.params.id}`;
-  let query = db.query(sql,(err, result) => {
-  if(err) throw err;
-  res.send("post deleted");
-})
+  //user id
+  let userId = req.auth.userId;
+  console.log(userId);
+  //select the user who created the post
+  let postUserId = `SELECT userId FROM posts WHERE id= ${req.params.id}`
+  let query = db.query(postUserId, (err, result) => {
+    if(err) throw err;
+    //convert raw data packet object to JSON
+    let postUserIdString = JSON.parse(JSON.stringify(result));
+    let postUserId = parseInt(postUserIdString[0].userId);
+
+    if(userId == postUserId) {
+      let sql = `DELETE FROM posts WHERE id= ${req.params.id}`;
+      let query = db.query(sql,(err, result) => {
+      if(err) throw err;
+      res.send("post deleted");
+    })
+    } else {
+      console.log('Invalid request!')
+    }
+  })
 }
 
 //Update a post:

@@ -28,27 +28,27 @@ export default {
         submitForm() {
             //const form = this.$refs.createForm;
             // Post request using fetch with error handling
-            const fd = new FormData();
+            //let fd = new FormData();
             //append the image as a file
-            fd.append('imgFile', this.imgFile);
+            //fd.append('imgFile', this.imgFile);
             //create a dataset
-            const data = {title: this.title, body: this.body};
+            let data = {title: this.title, body: this.body};
             //append the dataset as json
-            fd.append('otherFields', JSON.stringify(data));
+            //fd.append('otherFields', JSON.stringify(data));
             
             let myToken_deserialized = JSON.parse(localStorage.getItem('myToken'));
             if(myToken_deserialized  === null || undefined) {
                 this.$router.push('/login');
             } else {
-                console.log(Array.from(fd));
+                //console.log(Array.from(fd));
                 const myHeaders = new Headers({
-                    'Content-Type': 'multipart/form-data',
+                    'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + myToken_deserialized.token
                 });
                 fetch("http://localhost:3000/api/posts", {
                 method: 'POST',
                 headers: myHeaders,
-                data: fd
+                body: JSON.stringify(data)
                 })
                 .then((response) => response.json())
                 .then((data) =>  {
