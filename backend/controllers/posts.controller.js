@@ -2,7 +2,11 @@ const db = require("../database/index")
 
 //Select all posts:
 exports.getAll = (req, res, next) => {
-    let sql = "SELECT * FROM posts";
+    let sql = 
+    `SELECT posts.id, posts.title, posts.body, posts.imgUrl, posts.userId, posts.date_published, users.username 
+    FROM posts 
+    INNER JOIN users 
+    ON posts.userId=users.id;`
     let query = db.query(sql,(err, result) => {
     if(err) throw err;
     res.send(result);
@@ -26,12 +30,12 @@ exports.createPost = (req, res, next) => {
     //physical path to image directory
     //req.file.filename
   
-    post = {title: req.body.title, body: req.body.body, imgUrl: req.body.imgFile, userId: req.auth.userId,}; 
-    let sql ="INSERT INTO posts SET ?";
-    let query = db.query(sql, post, (err, result) => {
-    if(err) throw err;
-    res.send(result);
-  })
+    //post = {title: req.body.otherFields.title, body: req.body.otherFields.body, imgUrl: req.body.imgFile.name, userId: req.auth.userId,}; 
+  //   let sql ="INSERT INTO posts SET ?";
+  //   let query = db.query(sql, post, (err, result) => {
+  //   if(err) throw err;
+  //   res.send(result);
+  // })
 }
 
 //Delete a post:

@@ -1,7 +1,10 @@
 <template>
     <div class="container__article">
         <article v-for="article in articles" :key="article.id">
-          <p>User: {{ article.userId }}</p>  
+          <p>User: {{ article.userId }}</p> 
+          <p>Username: {{ article.username }}</p> 
+          <p>Published: {{ article.date_published }}</p>
+          <p>{{ article.id }}</p>
           <a :href="url + article.id"><h2>{{ article.title }}</h2></a>
           <p>{{ article.body }}</p>
           <div class="article__img__container">
@@ -20,10 +23,6 @@
             }
         },
         mounted() {
-            
-            //when I fetch the data I need to pass token
-            //sending headers
-            //pull the token from localstorage
            
             let myToken_deserialized = JSON.parse(localStorage.getItem("myToken"));
             

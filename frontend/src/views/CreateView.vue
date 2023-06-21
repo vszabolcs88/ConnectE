@@ -6,41 +6,40 @@
         <input type="text" name="ptext" id="ptext" v-model="body" >
         <input type="file" name="image" id="image" @change="onFileSelected">
         <div class="buttons">
-            <input type="submit" value="Submit">
+            <input type="submit"  value="Submit">
         </div>
     </form>
 </template>
 
 <script>
+//import axios from 'axios'
 export default {
     data() {
         return {
             title: '',
             body: '',
-            imgFile: ''
+            imgFile: null
         }
     },
     methods: {
-        onFileSelected(event) {
+         onFileSelected(event) {
             this.imgFile = event.target.files[0];
             console.log(this.imgFile);
         },
-        submitForm() {
+        async submitForm() {
             //const form = this.$refs.createForm;
-            // Post request using fetch with error handling
-            //let fd = new FormData();
+            let fd = new FormData();
             //append the image as a file
-            //fd.append('imgFile', this.imgFile);
+            fd.append('imgFile', this.imgFile, this.imgFile.name);
             //create a dataset
-            let data = {title: this.title, body: this.body};
+            let dataset = {title: this.title, body: this.body, imgFile: this.imgFile};
             //append the dataset as json
-            //fd.append('otherFields', JSON.stringify(data));
+            fd.append('otherFields', JSON.stringify(dataset));
             
             let myToken_deserialized = JSON.parse(localStorage.getItem('myToken'));
             if(myToken_deserialized  === null || undefined) {
                 this.$router.push('/login');
             } else {
-                //console.log(Array.from(fd));
                 const myHeaders = new Headers({
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + myToken_deserialized.token
@@ -48,7 +47,7 @@ export default {
                 fetch("http://localhost:3000/api/posts", {
                 method: 'POST',
                 headers: myHeaders,
-                body: JSON.stringify(data)
+                body: fd
                 })
                 .then((response) => response.json())
                 .then((data) =>  {
