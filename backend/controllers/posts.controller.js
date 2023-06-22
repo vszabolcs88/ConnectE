@@ -15,17 +15,32 @@ exports.getAll = (req, res, next) => {
 
 //Select a post:
 exports.getPost = (req, res, next) => {
+    let userId = req.auth.userId;
+    let postId = req.params.id;
     let sql = `SELECT * FROM posts WHERE id= ${req.params.id}`;
     let query = db.query(sql,(err, result) => {
     if(err) throw err;
+    let sql3 = `SELECT * FROM read_table WHERE read_userId= ${userId} AND read_postId = ${postId}`
+    let query3 = db.query(sql3,(err, result3) => {
+      if(err) throw err;
+      if(result3.length == 0) {
+        let sql2 = `INSERT INTO read_table(read_userId, read_postId) VALUES (?,?);`
+        //req.param.id and userId
+        let query2 = db.query(sql2,[userId,postId],(err, result2) => {
+        if(err) throw err;
+        })
+      }
+    })
     res.send(result);
   })
 }
 
 //Create a post:
 exports.createPost = (req, res, next) => {
-    let incomingData = req.body
-    console.log(incomingData);
+    res.json({file: req.file, body: req.body});
+    console.log(req.file);
+    // let incomingData = req.body
+    // console.log(incomingData);
     
     //physical path to image directory
     //req.file.filename

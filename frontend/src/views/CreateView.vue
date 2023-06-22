@@ -4,7 +4,7 @@
         <input type="text" name="ttext" id="ttext" v-model="title" >
         <label for="ptext">Post</label>
         <input type="text" name="ptext" id="ptext" v-model="body" >
-        <input type="file" name="image" id="image" @change="onFileSelected">
+        <input type="file" ref="file" name="image" id="image" @change="onFileSelected">
         <div class="buttons">
             <input type="submit"  value="Submit">
         </div>
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-//import axios from 'axios'
+import axios from 'axios'
 export default {
     data() {
         return {
@@ -22,8 +22,8 @@ export default {
         }
     },
     methods: {
-         onFileSelected(event) {
-            this.imgFile = event.target.files[0];
+         onFileSelected() {
+            this.imgFile = this.$refs.file.files[0];
             console.log(this.imgFile);
         },
         async submitForm() {
@@ -40,22 +40,38 @@ export default {
             if(myToken_deserialized  === null || undefined) {
                 this.$router.push('/login');
             } else {
-                const myHeaders = new Headers({
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + myToken_deserialized.token
-                });
-                fetch("http://localhost:3000/api/posts", {
-                method: 'POST',
-                headers: myHeaders,
-                body: fd
-                })
-                .then((response) => response.json())
-                .then((data) =>  {
-                    console.log("Success: ", data);
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+
+                try {
+                    await axios.post("http://localhost:3000/api/posts", fd, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                            'Authorization': 'Bearer ' + myToken_deserialized.token
+                        }
+                    });
+                    // this.message = "File has been uploaded";
+                    // this.file = "";
+                    // this.error = false;
+                } catch(err) {
+                    console.log(err)
+                    // this.message =err.response.data.error;
+                    // this.error = true;
+                }
+                // const myHeaders = new Headers({
+                //     'Content-Type': 'multipart/form-data',
+                //     'Authorization': 'Bearer ' + myToken_deserialized.token
+                // });
+                // fetch("http://localhost:3000/api/posts", {
+                // method: 'POST',
+                // headers: myHeaders,
+                // body: fd
+                // })
+                // .then((response) => response.json())
+                // .then((data) =>  {
+                //     console.log("Success: ", data);
+                // })
+                // .catch((error) => {
+                //     console.log(error);
+                // });
             }   
         }
     }
