@@ -7,6 +7,9 @@
             <h3>Post: <span>{{ post[0].body }}</span></h3>
             <p>UserPosted: {{ post[0].userId }}</p>
             <p>User logged in: {{ this.loggedInUser }}</p>
+            <div class="article__img__container">
+                <img class="article__img" :src="post[0].imgUrl" alt="">
+            </div>
             <span v-if="post[0].userId == this.loggedInUser">
                 <button @click="deletePost">Delete</button>
             </span>

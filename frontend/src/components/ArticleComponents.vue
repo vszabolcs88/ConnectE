@@ -8,7 +8,7 @@
           <a :href="url + article.id"><h2>{{ article.title }}</h2></a>
           <p>{{ article.body }}</p>
           <div class="article__img__container">
-            <img class="article__img" src="https://cdn.pixabay.com/photo/2023/04/24/21/48/nature-7949073_960_720.jpg" alt="">
+            <img class="article__img" :src="article.imgUrl" alt="">
           </div>
         </article>
     </div>
@@ -62,10 +62,13 @@
         border-radius: 8px;
         padding: 6px;
     }
+    .article__img__container {
+        height: 250px;
+    }
 
     .article__img {
-        max-inline-size: 100%;
-        block-size: auto;
+        width: 100%;
+        height: 100%;
         object-fit: cover;
     }
 

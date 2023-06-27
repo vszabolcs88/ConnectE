@@ -56,22 +56,6 @@ export default {
                     // this.message =err.response.data.error;
                     // this.error = true;
                 }
-                // const myHeaders = new Headers({
-                //     'Content-Type': 'multipart/form-data',
-                //     'Authorization': 'Bearer ' + myToken_deserialized.token
-                // });
-                // fetch("http://localhost:3000/api/posts", {
-                // method: 'POST',
-                // headers: myHeaders,
-                // body: fd
-                // })
-                // .then((response) => response.json())
-                // .then((data) =>  {
-                //     console.log("Success: ", data);
-                // })
-                // .catch((error) => {
-                //     console.log(error);
-                // });
             }   
         }
     }

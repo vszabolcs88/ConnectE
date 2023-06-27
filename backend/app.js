@@ -1,6 +1,7 @@
 const mysql = require('mysql');
 const express = require('express');
 const cors = require("cors");
+const path = require('path');
 const app = express();
 require("dotenv").config();
 
@@ -22,6 +23,7 @@ app.use((req, res, next) => model.initDatabase(req, res, next()));
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use("/api/posts", postsRouter);
 app.use("/api/signup",  usersRouter);
 module.exports = app;

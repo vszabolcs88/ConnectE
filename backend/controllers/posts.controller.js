@@ -2,6 +2,7 @@ const db = require("../database/index")
 
 //Select all posts:
 exports.getAll = (req, res, next) => {
+    let userId = req.auth.userId;
     let sql = 
     `SELECT posts.id, posts.title, posts.body, posts.imgUrl, posts.userId, posts.date_published, users.username 
     FROM posts 
@@ -37,10 +38,33 @@ exports.getPost = (req, res, next) => {
 
 //Create a post:
 exports.createPost = (req, res, next) => {
-    res.json({file: req.file, body: req.body});
-    console.log(req.file);
-    // let incomingData = req.body
-    // console.log(incomingData);
+    let incomingData;
+    let pTitle;
+    let pText;
+    let pImage;
+    let url;
+    let userId;
+
+    if(req.file) {
+      incomingData = JSON.parse(req.body.otherFields);
+      userId = req.auth.userId;
+      pTitle = incomingData.title;
+      pText = incomingData.body;
+      url = req.protocol + "://" + req.get("host") + "/images/";
+      pImage = url + req.file.filename;
+      let post = {title: pTitle, body: pText, imgUrl: pImage, userId: userId};
+      let sql = "INSERT INTO posts SET ?";
+      let query = db.query(sql, post, (err, result) => {
+          if(err) throw err;
+          res.send(result);
+        })
+    } else {
+      incomingData = JSON.parse(req.body.otherFields);
+      pTitle = incomingData.title;
+      pText = incomingData.body;
+      userId = req.auth.userId;
+      pImage = null;
+    }
     
     //physical path to image directory
     //req.file.filename
