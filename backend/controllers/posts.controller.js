@@ -1,4 +1,5 @@
-const db = require("../database/index")
+const db = require("../database/index");
+const fs = require("fs");
 
 //Select all posts:
 exports.getAll = (req, res, next) => {
@@ -8,6 +9,13 @@ exports.getAll = (req, res, next) => {
     FROM posts 
     INNER JOIN users 
     ON posts.userId=users.id;`
+    // `
+    // SELECT posts.* , users.*, read_table.read_userId, 
+    // IF(posts.userId = ${userId} OR read_table.read_userId= ${userId}, TRUE , FALSE ) AS p_readby_user FROM posts 
+    // LEFT JOIN (SELECT * FROM read_table WHERE read_table.read_userId = ${userId}) read_table ON posts.id= read_table.read_id 
+    // INNER JOIN users ON users.id = posts.userId 
+    // ORDER BY posts.date_published DESC;
+    // `
     let query = db.query(sql,(err, result) => {
     if(err) throw err;
     res.send(result);
@@ -32,6 +40,7 @@ exports.getPost = (req, res, next) => {
         })
       }
     })
+    //console.log(result[0].imgUrl);
     res.send(result);
   })
 }
@@ -64,24 +73,20 @@ exports.createPost = (req, res, next) => {
       pText = incomingData.body;
       userId = req.auth.userId;
       pImage = null;
+      let post = {title: pTitle, body: pText, imgUrl: pImage, userId: userId};
+      let sql = "INSERT INTO posts SET ?";
+      let query = db.query(sql, post, (err, result) => {
+          if(err) throw err;
+          res.send(result);
+        })
     }
-    
-    //physical path to image directory
-    //req.file.filename
-  
-    //post = {title: req.body.otherFields.title, body: req.body.otherFields.body, imgUrl: req.body.imgFile.name, userId: req.auth.userId,}; 
-  //   let sql ="INSERT INTO posts SET ?";
-  //   let query = db.query(sql, post, (err, result) => {
-  //   if(err) throw err;
-  //   res.send(result);
-  // })
 }
 
 //Delete a post:
 exports.deletePost = (req,res, next) => {
   //user id
   let userId = req.auth.userId;
-  console.log(userId);
+  //console.log(userId);
   //select the user who created the post
   let postUserId = `SELECT userId FROM posts WHERE id= ${req.params.id}`
   let query = db.query(postUserId, (err, result) => {
@@ -91,24 +96,46 @@ exports.deletePost = (req,res, next) => {
     let postUserId = parseInt(postUserIdString[0].userId);
 
     if(userId == postUserId) {
-      let sql = `DELETE FROM posts WHERE id= ${req.params.id}`;
+      //Getting image path and deleting post
+      let sql = `SELECT imgUrl FROM posts WHERE id=${req.params.id}`
       let query = db.query(sql,(err, result) => {
-      if(err) throw err;
-      res.send("post deleted");
-    })
+        if(err) throw err;
+
+        let imgUrl = result[0].imgUrl;
+        //console.log(imgUrl);
+
+        //Post without image to delete:
+        if(imgUrl == null) {
+          let sql2 = `DELETE FROM posts WHERE id= ${req.params.id}`;
+          let query2 = db.query(sql2,(err, result2) => {
+          if(err) throw err;
+          res.send("post deleted");
+          })
+        } else {
+
+          //Post with image to delete:
+          let imageFile = imgUrl.split('images/')[1];
+          //console.log(result[0].imgUrl.split('images/')[1]);
+          fs.unlink('images/' + imageFile, (err) => {
+            if (err) throw err;
+            console.log(`${imageFile} was deleted`);
+          }); 
+            let sql2 = `DELETE FROM posts WHERE id= ${req.params.id}`;
+            let query2 = db.query(sql2,(err, result2) => {
+            if(err) throw err;
+            //testing if req.file exist
+            res.send("post deleted");
+            })
+          }
+
+          //Delete post from read table:
+          let sqlDelete = `DELETE FROM read_table WHERE read_postId= ${req.params.id}`;
+          let queryDelete = db.query(sqlDelete,(err, result2) => {
+            if(err) throw err;
+            })
+        })
     } else {
       console.log('Invalid request!')
     }
   })
 }
-
-//Update a post:
-// exports.updatePost = (req, res, next) => {
-//     let newTitle = "updated title"
-//     let sql = `UPDATE posts SET title = '${newTitle}' WHERE id= ${req.params.id}`;
-//     let query = db.query(sql,(err, result) => {
-//     if(err) throw err;
-//     res.send("post updated");
-//   })
-// }
-

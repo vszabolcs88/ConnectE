@@ -1,7 +1,10 @@
 <template>
   <div class="main">
     <AsideComponents/>
-    <ArticleComponents/>
+    <div class="container__article">
+      <ArticleComponents/>
+    </div>
+    
   </div>
     
     
@@ -30,4 +33,11 @@ export default {
     display: flex;
     justify-content: flex-start;
   }
+  .container__article {
+        width: 50vw;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        row-gap: 16px;
+    }
 </style>

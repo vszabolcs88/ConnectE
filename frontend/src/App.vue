@@ -8,10 +8,22 @@
       <router-link to="/Create">Create</router-link>
       <router-link to="/About">About</router-link>
       <router-link to="/Login">Login</router-link>
+      <button class="signout" @click="signOut">Sign out</button>
     </div>
   </nav>
   <router-view/>
 </template>
+
+<script>
+ export default {
+  methods: {
+    signOut() {
+      localStorage.clear();
+      this.$router.push('/login');
+    }
+  }
+ }
+</script>
 
 <style>
 #app {
@@ -50,6 +62,19 @@ nav a.router-link-exact-active {
   color: white;
 }
 
+.signout {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #2c3e50;
+  text-decoration: none;
+  padding: 6px 24px;
+  margin-left: 12px;
+  border-radius: 24px;
+  background: #FF4500;
+  border: none;
+  cursor: pointer;
+}
+
 nav .logo {
   display: block;
   object-fit: cover;
@@ -62,6 +87,6 @@ nav .logo {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  width: 30%;
+  width: 80%;
 }
 </style>

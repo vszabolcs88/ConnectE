@@ -21,6 +21,12 @@ export default {
             imgFile: null
         }
     },
+    mounted() {
+        let myToken_deserialized = JSON.parse(localStorage.getItem('myToken'));
+        if(myToken_deserialized  === null || undefined){
+        this.$router.push('/login')
+     }
+    },
     methods: {
          onFileSelected() {
             this.imgFile = this.$refs.file.files[0];
@@ -30,7 +36,9 @@ export default {
             //const form = this.$refs.createForm;
             let fd = new FormData();
             //append the image as a file
-            fd.append('imgFile', this.imgFile, this.imgFile.name);
+            if(this.imgFile != null) {
+                fd.append('imgFile', this.imgFile, this.imgFile.name);
+            }
             //create a dataset
             let dataset = {title: this.title, body: this.body, imgFile: this.imgFile};
             //append the dataset as json
@@ -56,6 +64,10 @@ export default {
                     // this.message =err.response.data.error;
                     // this.error = true;
                 }
+                this.$router.push('/');
+                this.title = "";
+                this.body = "";
+                
             }   
         }
     }

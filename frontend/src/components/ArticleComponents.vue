@@ -1,15 +1,26 @@
 <template>
     <div class="container__article">
         <article v-for="article in articles" :key="article.id">
-          <p>User: {{ article.userId }}</p> 
-          <p>Username: {{ article.username }}</p> 
-          <p>Published: {{ article.date_published }}</p>
-          <p>{{ article.id }}</p>
-          <a :href="url + article.id"><h2>{{ article.title }}</h2></a>
-          <p>{{ article.body }}</p>
-          <div class="article__img__container">
-            <img class="article__img" :src="article.imgUrl" alt="">
-          </div>
+            <div class="card__header">
+                <div>
+                    <div>
+                        <span class="card__username">{{ article.username }}</span>
+                    </div>
+                    <div>
+                        <span class="card__published">{{ article.date_published }}</span>
+                    </div>
+                </div>
+                <div class ="card__sticker">
+                    <span class="card__sticker__content">New</span>
+                </div>
+            </div>
+            <a :href="url + article.id"><h2>{{ article.title }}</h2></a>
+            <p>{{ article.body }}</p>
+            <div v-if="article.imgUrl" class="article__img__container">
+                <a :href="url + article.id">
+                    <img class="article__img" :src="article.imgUrl" alt="">
+                </a>
+            </div>
         </article>
     </div>
 </template>
@@ -62,8 +73,41 @@
         border-radius: 8px;
         padding: 6px;
     }
+
+    .card__header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 1rem 0;
+        border-bottom: 1px solid #bcc0c4;
+    }
+
+    .card__username {
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+    .card__published {
+        font-style: italic;
+        font-size: 0.9rem;
+    }
+
+    .card__sticker {
+        background-color: #7FFFD4;
+        padding: 0.5rem 0.7rem;
+    }
+
+    .card__sticker__content {
+        font-weight: bold;
+    }
     .article__img__container {
         height: 250px;
+    }
+
+    article a {
+        text-decoration: none;
+        color: #2c3e50;
     }
 
     .article__img {
