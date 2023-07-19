@@ -37,16 +37,17 @@ export default {
 <style>
 
     aside {
-        width: 15%;
-        margin-left: 30px;
+        
         background: white;
         height: 75vh;
         text-align: center;
     }
 
     ul {
+        margin: 0;
         list-style: none;
         padding: 0;
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: flex-start;

@@ -1,21 +1,21 @@
 <template>
     <router-view/>
     <div class="post__wrapper">
-    <div class="post__container">
-        <div v-if="post">
-            <h1>{{ post[0].title }}</h1>
-            <p>{{ post[0].body }}</p>
-            <div v-if="post[0].imgUrl" class="article__img__container">
-                <img class="article__img" :src="post[0].imgUrl" alt="">
-            </div>
-            <div class="button__container" v-if="post[0].userId == this.loggedInUser">
-                <button @click="deletePost">Delete</button>
+        <div class="post__container" v-if="post">
+            <div>
+                <h1>{{ post[0].title }}</h1>
+                <p>{{ post[0].body }}</p>
+                <div v-if="post[0].imgUrl" class="article__img__container">
+                    <img class="article__img" :src="post[0].imgUrl" alt="">
+                </div>
+                <div class="button__container" v-if="post[0].userId == this.loggedInUser">
+                    <button @click="deletePost">Delete</button>
+                </div>
             </div>
         </div>
         <div v-else>
-            <p>Your post has been deleted</p>
+            <p>{{ successMessage }}</p>
         </div>
-    </div>
     </div>
    
 </template>
@@ -27,7 +27,8 @@ export default {
         return {
             post: null,
             userPosted: null,
-            loggedInUser: null
+            loggedInUser: null,
+            successMessage: ''
         }
     },
     created() {
@@ -72,7 +73,8 @@ export default {
                 })
                 .then(response => {
                     if (response.ok) {
-                        console.log('deleted')
+                        this.successMessage = 'Post has been deleted by the user'
+                        //console.log('deleted');
                         this.post = null;
                     } else {
                     throw new Error('Failed to delete post');
@@ -103,7 +105,6 @@ export default {
         padding: 16px;
         border: 2px solid #aaa;
         border-radius: 16px;
-
     }
     .button__container button {
         margin-top: 1rem;

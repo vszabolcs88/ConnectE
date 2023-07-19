@@ -1,6 +1,7 @@
 <template>
     <div class="container__article">
-        <article v-for="article in articles" :key="article.id">
+        <span>User: </span>
+        <article v-for="article in articles" :key="article.post_id">
             <div class="card__header">
                 <div>
                     <div>
@@ -10,14 +11,14 @@
                         <span class="card__published">{{ article.date_published }}</span>
                     </div>
                 </div>
-                <div class ="card__sticker">
-                    <span class="card__sticker__content">New</span>
+                <div v-if='article.p_readby_user!=this.readbyUser' class ="card__sticker">
+                    <span  class="card__sticker__content">New</span>
                 </div>
             </div>
-            <a :href="url + article.id"><h2>{{ article.title }}</h2></a>
+            <a :href="url + article.post_id"><h2>{{ article.title }}</h2></a>
             <p>{{ article.body }}</p>
             <div v-if="article.imgUrl" class="article__img__container">
-                <a :href="url + article.id">
+                <a :href="url + article.post_id">
                     <img class="article__img" :src="article.imgUrl" alt="">
                 </a>
             </div>
@@ -30,7 +31,8 @@
         data() {
             return {
                 articles: [],
-                url: 'http://localhost:8080/#/post/'
+                url: 'http://localhost:8080/#/post/',
+                readbyUser: true
             }
         },
         mounted() {
