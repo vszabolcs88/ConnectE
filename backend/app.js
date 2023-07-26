@@ -8,6 +8,7 @@ require("dotenv").config();
 const model = require("./models/index.model");
 const postsRouter = require("./routes/post.router");
 const usersRouter = require("./routes/user.router");
+const profileRouter = require("./routes/profile.router");
 
 
 app.use((req, res, next) => {
@@ -26,4 +27,5 @@ app.use(express.urlencoded({extended: true}));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use("/api/posts", postsRouter);
 app.use("/api/signup",  usersRouter);
+app.use("/api/profile", profileRouter);
 module.exports = app;

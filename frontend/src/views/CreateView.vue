@@ -1,9 +1,10 @@
 <template>
     <form ref="createForm" class="create-post" v-on:submit.prevent="submitForm" enctype="multipart/form-data">
+        <div class="create__title">Create a post</div>
         <label for="ttext">Title</label>
-        <input type="text" name="ttext" id="ttext" v-model="title" >
+        <input type="text" name="ttext" id="ttext" v-model="title" required>
         <label for="ptext">Post</label>
-        <input type="text" name="ptext" id="ptext" v-model="body" >
+        <textarea name="ptext" id="ptext" v-model="body"></textarea>
         <input type="file" ref="file" name="image" id="image" @change="onFileSelected">
         <div class="buttons">
             <input type="submit"  value="Submit">
@@ -67,9 +68,27 @@ export default {
                 this.$router.push('/');
                 this.title = "";
                 this.body = "";
-                
             }   
         }
     }
 }
 </script>
+
+<style>
+    .create__title {
+        color: #30415F;
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: bold;
+  }
+    textarea {
+        display: block;
+        width: 100%;
+        outline: none;
+        resize: none;
+        border: 1px solid #ddd;
+    }
+    textarea:focus {
+        border: 1px solid black;
+    }
+</style>

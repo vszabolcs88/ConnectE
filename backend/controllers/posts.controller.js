@@ -11,7 +11,7 @@ exports.getAll = (req, res, next) => {
     // INNER JOIN users 
     // ON posts.userId=users.id;`
     `
-    SELECT posts.* , users.*, read_table.read_userId, 
+    SELECT posts.*,DATE_FORMAT( posts.date_published,'%d/%m/%Y') AS nicedate , users.*, read_table.read_userId, 
     IF(posts.userId = ? OR read_table.read_userId= ?, TRUE , FALSE ) AS p_readby_user FROM posts 
     LEFT JOIN (SELECT * FROM read_table WHERE read_table.read_userId = ?) read_table ON posts.post_id= read_table.read_postId
     INNER JOIN users ON users.id =  posts.userId
@@ -19,7 +19,7 @@ exports.getAll = (req, res, next) => {
     `
     let query = db.query(sql,[userId,userId,userId],(err, result) => {
     if(err) throw err;
-    console.log(result);
+    // console.log(result);
     res.send(result);
   })
 }

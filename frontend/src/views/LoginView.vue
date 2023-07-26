@@ -1,5 +1,6 @@
 <template>
     <form @submit.prevent="loginUser" class="login">
+        <div class="login__title">Login</div>
         <label>Email:</label>
         <input type="text" v-model="email" required>
         <label>Password:</label>
@@ -44,7 +45,6 @@ export default {
             console.log(this.email, this.password);
             this.email = "";
             this.password = "";
-            
         }
     }
 }
@@ -60,9 +60,15 @@ export default {
         border: 2px solid #aaa;
         border-radius: 10px;
     }
+    .login__title {
+        color: #30415F;
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: bold;
+  }
 
     label {
-        color: #aaa;
+        color: #30415F;
         display: inline-block;
         margin: 25px 0 15px;
         font-size: 0.6em;

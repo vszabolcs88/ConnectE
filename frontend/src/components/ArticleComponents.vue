@@ -1,6 +1,6 @@
 <template>
-    <div class="container__article">
-        <span>User: </span>
+    <div v-if="loading" class="loading">Loading...</div>
+    <div v-else class="container__article">
         <article v-for="article in articles" :key="article.post_id">
             <div class="card__header">
                 <div>
@@ -8,7 +8,7 @@
                         <span class="card__username">{{ article.username }}</span>
                     </div>
                     <div>
-                        <span class="card__published">{{ article.date_published }}</span>
+                        <span class="card__published">{{ article.nicedate }}</span>
                     </div>
                 </div>
                 <div v-if='article.p_readby_user!=this.readbyUser' class ="card__sticker">
@@ -16,46 +16,59 @@
                 </div>
             </div>
             <a :href="url + article.post_id"><h2>{{ article.title }}</h2></a>
-            <p>{{ article.body }}</p>
+            <div class="card__content__container">
+                <span class="card__content">{{ article.body }}</span>
+            </div>
             <div v-if="article.imgUrl" class="article__img__container">
                 <a :href="url + article.post_id">
                     <img class="article__img" :src="article.imgUrl" alt="">
                 </a>
             </div>
         </article>
+        <p>{{error}}</p>
     </div>
 </template>
 
 <script>
+    import axios from 'axios'
     export default {
         data() {
             return {
-                articles: [],
+                articles: null,
                 url: 'http://localhost:8080/#/post/',
-                readbyUser: true
+                readbyUser: true,
+                error: null,
+                loading: false
             }
         },
-        mounted() {
-           
-            let myToken_deserialized = JSON.parse(localStorage.getItem("myToken"));
-            
-            if (myToken_deserialized === null || undefined) {
-                this.$router.push('/login');
-            } else {
-                const myHeaders = new Headers({
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + myToken_deserialized.token
-                });
-           
-                fetch("http://localhost:3000/api/posts", {
-                    method: 'GET',
-                    headers: myHeaders
-                })
-                .then(res => res.json())
-                .then(data => this.articles = data)
-                .catch(err => console.log(err.message))
+        created() {
+            this.fetchData();
+        },
+        methods: {
+            async fetchData() {
+                this.loading = true;
+                let myToken_deserialized = JSON.parse(localStorage.getItem("myToken"));
+                if(myToken_deserialized !== null || undefined) {
+                    try {
+                        const response = await axios.get("http://localhost:3000/api/posts",{
+                            headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + myToken_deserialized.token
+                            }
+                        });
+                        console.log(response);
+                        this.loading = false;
+                        this.articles = response.data;
+                    } catch (error) {
+                        console.log(error.message);
+                        this.loading = false;
+                        this.error = error.message;
+                    }
+                } else {
+                    this.$router.push('/login');
+                }
             }
-        }
+         }
     }
 </script>
 
@@ -68,10 +81,14 @@
         row-gap: 16px;
     }
 
+    .loading {
+        color: white;
+    }
+
     article {
         width: 100%;
         background: white;
-        border: 1px solid #bcc0c4;
+        /* border: 1px solid #bcc0c4; */
         border-radius: 8px;
         padding: 6px;
     }
@@ -83,6 +100,10 @@
         align-items: flex-start;
         padding: 1rem 0;
         border-bottom: 1px solid #bcc0c4;
+    }
+    
+    .card__header span {
+        color: black;
     }
 
     .card__username {
@@ -103,13 +124,25 @@
     .card__sticker__content {
         font-weight: bold;
     }
+
+    .card__content__container{
+        padding-bottom: 0.7rem;
+    }
+
+    .card__content {
+        display: block;
+        max-width: 80%; 
+        overflow: hidden; 
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
     .article__img__container {
         height: 250px;
     }
 
     article a {
         text-decoration: none;
-        color: #2c3e50;
+        color: black;
     }
 
     .article__img {

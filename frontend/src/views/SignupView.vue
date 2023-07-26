@@ -1,5 +1,6 @@
 <template>
     <form @submit.prevent ="submitUser" class="login">
+        <div class="signup__title">create an account</div>
         <label>Username:</label>
         <input type="text" v-model="username" required>
         <label>Email:</label>
@@ -47,3 +48,12 @@ export default {
     }
 }
 </script>
+
+<style>
+    .signup__title {
+        color: #30415F;
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: bold;
+  }
+</style>
