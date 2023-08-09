@@ -5,6 +5,8 @@ require("dotenv").config();
 
 //Create a user account:
 exports.createUser = async (req, res, next) => {
+  //check if username or user exist
+  //comparing the lowercase version, turn it in lower case
   try {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(req.body.password, salt);

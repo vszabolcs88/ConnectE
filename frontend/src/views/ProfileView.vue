@@ -1,13 +1,15 @@
 <template>
   <div>
-    <form>
+    <form  @submit.prevent="deleteAccount" class="profile__container">
       <div class="profile__title">Profile</div>
       <label>Username:</label>
-      <input type="text" v-model="username" required>
+      <input type="text" v-model="username">
       <label>Email:</label>
-      <input type="text" v-model="email" required>
+      <input type="text" v-model="email">
+      <label>Password</label>
+      <input type="password" v-model="password" required>
       <div>
-        <button class="button" @click="deleteAccount">Delete Account</button>
+        <input class="button" type="submit" value="Delete Accout">
       </div>
     </form>
   </div>
@@ -21,6 +23,7 @@
         data: '',
         username: '',
         email: '',
+        password: ''
       }
     },
     created() {
@@ -37,19 +40,23 @@
                 'Authorization': 'Bearer ' + myToken_deserialized.token
               }
           });
-            console.log(response);
+            // console.log(response);
             this.data = response.data;
             this.username = response.data[0].username;
             this.email = response.data[0].email;
-            // console.log(response.data);
+            //console.log(response.data);
           } catch (error) {
             console.log(error.message);
+            this.$router.push('/login');
           }
         } else {
           this.$router.push('/login');
         }
       },
+
       async deleteAccount() {
+        const data = {password: this.password};
+        console.log(data);
         let myToken_deserialized = JSON.parse(localStorage.getItem("myToken"));
         if(myToken_deserialized !== null || undefined) {
           try { 
@@ -57,15 +64,16 @@
               headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + myToken_deserialized.token
-              }
+              },
+              data: data
             });
             console.log(deleteProfile);
             console.log('Account deleted');
             this.data = '';
             this.username = '';
             this.email = '';
-            this.$router.push('/login');
             localStorage.clear();
+            this.$router.push('/login');
           } catch(err) {
             console.log(err);
           }
@@ -76,6 +84,15 @@
 </script>
 
 <style>
+  .profile__container {
+    max-width: 420px;
+    margin: 30px auto;
+    background: white;
+    text-align: left;
+    padding: 40px;
+    border: 2px solid #aaa;
+    border-radius: 10px;
+  }
   .profile__title {
     color: #30415F;
     text-align: center;
