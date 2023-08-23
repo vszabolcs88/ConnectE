@@ -111,4 +111,26 @@ nav .logo {
   padding-right: 30px;
   width: 80%;
 }
+
+@media (max-width: 700px) {
+  nav {
+    display: block;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  .container__links {
+    display: block;
+    width: 100%;
+    padding: 0;
+  }
+  nav a {
+    display: block;
+    margin-left: 0px;
+    border-radius: 0px;
+    width: 100%;
+  }
+}
 </style>

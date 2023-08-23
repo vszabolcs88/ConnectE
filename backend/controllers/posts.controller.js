@@ -3,7 +3,7 @@ const fs = require("fs");
 
 //Select all posts:
 exports.getAll = (req, res, next) => {
-  console.log(req.body);
+  //console.log(req.body);
     let userId = req.auth.userId;
     let sql = 
     // `SELECT posts.id, posts.title, posts.body, posts.imgUrl, posts.userId, posts.date_published, users.username 

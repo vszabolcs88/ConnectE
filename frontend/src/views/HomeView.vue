@@ -41,6 +41,7 @@ export default {
   }
   .background__wrapper {
     position: fixed;
+    width: 100vw;
     left:0;
     top: 0;
     z-index: -3;
@@ -62,4 +63,27 @@ export default {
         flex-direction: column;
         row-gap: 16px;
     }
+
+  @media (max-width: 700px) {
+    .main__container {
+      width: 100vw;
+    }
+
+    .main {
+      display: block;
+      width: 100%;
+      padding: 0;
+      margin-top: 210px;
+    }
+
+    .main__aside {
+      display: none;
+    }
+
+    .container__article {
+      width: 90%;
+      margin-top: 12px;
+      
+    }
+  }
 </style>

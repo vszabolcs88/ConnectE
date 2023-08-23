@@ -2,9 +2,9 @@
     <form @submit.prevent="loginUser" class="login">
         <div class="login__title">Login</div>
         <label>Email:</label>
-        <input type="text" v-model="email" required>
+        <input type="text" v-model="email" placeholder="Email" class="custom-input" required>
         <label>Password:</label>
-        <input type="password" v-model="password" required>
+        <input type="password" v-model="password" placeholder="Password" class="custom-input" required>
         <div class="buttons">
             <input type="submit" value="Login">
             <p>
@@ -109,6 +109,10 @@ export default {
         color: white;
     }
 
+    .custom-input::placeholder {
+    color: #b6b6b6;
+  }
+
     .buttons {
         display: flex;
         flex-direction: row;
@@ -116,5 +120,11 @@ export default {
         align-content: center;
         margin-top: 32px;
         text-align: center;
+    }
+
+    @media (max-width: 700px) {
+        form {
+            margin-top: 230px;
+        }
     }
 </style>
