@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 12, 2023 at 01:47 PM
+-- Generation Time: Aug 24, 2023 at 09:21 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `posts` (
-  `id` int(11) NOT NULL,
+  `post_id` int(11) NOT NULL,
   `title` varchar(255) DEFAULT NULL,
   `body` varchar(255) DEFAULT NULL,
   `imgUrl` varchar(255) DEFAULT NULL,
@@ -40,10 +40,10 @@ CREATE TABLE `posts` (
 -- Dumping data for table `posts`
 --
 
-INSERT INTO `posts` (`id`, `title`, `body`, `imgUrl`, `userId`, `date_published`) VALUES
+INSERT INTO `posts` (`post_id`, `title`, `body`, `imgUrl`, `userId`, `date_published`) VALUES
 (179, 'Bookshelf', 'Check out my new bookshelf!!!', 'http://localhost:3000/images/pexels-pixabay-159711.jpg1687857704054.jpg', '20', '2023-06-27 10:21:44'),
 (180, 'Travelling to Budapest', 'Outstanding architecture, illustrious history, and unbeatable culture: there’s so much to discover on Budapest holidays', 'http://localhost:3000/images/pexels-szabolcs-toth-3148096.jpg1687858029732.jpg', '20', '2023-06-27 10:27:09'),
-(197, 'Post to delete', 'Some dummy text', 'http://localhost:3000/images/Encona_Hot_Pepper_Sauce.jpg1689102554893.jpg', '20', '2023-07-11 20:09:14');
+(230, 'Post to delete', 'dummy text', 'http://localhost:3000/images/Dr_Trouble_Double_Oak_Smoked_Chilli_Sauce.jpg1690360554780.jpg', '20', '2023-07-26 09:35:54');
 
 -- --------------------------------------------------------
 
@@ -63,9 +63,10 @@ CREATE TABLE `read_table` (
 
 INSERT INTO `read_table` (`read_id`, `read_userId`, `read_postId`) VALUES
 (5, 19, 179),
-(6, 20, 179),
-(7, 20, 180),
-(9, 19, 180);
+(77, 19, 180),
+(78, 20, 180),
+(80, 20, 179),
+(81, 20, 230);
 
 -- --------------------------------------------------------
 
@@ -97,7 +98,7 @@ INSERT INTO `users` (`id`, `username`, `email`, `password`, `account_created`) V
 -- Indexes for table `posts`
 --
 ALTER TABLE `posts`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`post_id`);
 
 --
 -- Indexes for table `read_table`
@@ -119,19 +120,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=202;
+  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=234;
 
 --
 -- AUTO_INCREMENT for table `read_table`
 --
 ALTER TABLE `read_table`
-  MODIFY `read_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `read_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
