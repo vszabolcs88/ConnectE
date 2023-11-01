@@ -63,6 +63,7 @@
                         console.log(error.message);
                         this.loading = false;
                         this.error = error.message;
+                        this.$router.push('/login');
                     }
                 } else {
                     this.$router.push('/login');

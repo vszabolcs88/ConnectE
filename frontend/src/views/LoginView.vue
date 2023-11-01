@@ -2,9 +2,10 @@
     <form @submit.prevent="loginUser" class="login">
         <div class="login__title">Login</div>
         <label>Email:</label>
-        <input type="text" v-model="email" placeholder="Email" class="custom-input" required>
+        <input type="text" v-model="email" placeholder="Email" class="custom-input" @click="removeMsg" required>
         <label>Password:</label>
-        <input type="password" v-model="password" placeholder="Password" class="custom-input" required>
+        <input type="password" v-model="password" placeholder="Password" class="custom-input" @click="removeMsg" required>
+        <p>{{ errorMsg }}</p>
         <div class="buttons">
             <input type="submit" value="Login">
             <p>
@@ -15,16 +16,31 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
     data() {
         return {
             email: '',
-            password: ''
+            password: '',
+            errorMsg: '',
         }
     }, 
     methods: {
-        loginUser() {
-            const data = {email: this.email, password: this.password};
+        async loginUser() {
+            try {
+                const data = {email: this.email, password: this.password};
+                const response = await axios.post("http://localhost:3000/api/signup/login", JSON.stringify(data),{
+                    headers: {'Content-Type': 'application/json'}
+                    });
+                    console.log("Success:", response.data);
+                    let myToken_serialized = JSON.stringify(response.data);
+                    localStorage.setItem('myToken', myToken_serialized);
+                    this.$router.push('/');
+            } catch(error) {
+                console.log(error.response.data.error);
+                this.errorMsg = error.response.data.error;
+            }
+            /*const data = {email: this.email, password: this.password};
             fetch("http://localhost:3000/api/signup/login", {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
@@ -32,19 +48,27 @@ export default {
             })
             .then((response) => response.json()) 
             .then((data) => {
-                console.log("Success:", data);
+                // if(data){
+                    console.log("Success:", data);
                 
-                //store the userId and the token in localstorage
-                let myToken_serialized = JSON.stringify(data);
-                localStorage.setItem('myToken', myToken_serialized);
-                this.$router.push('/');
+                    //store the userId and the token in localstorage
+                    let myToken_serialized = JSON.stringify(data);
+                    localStorage.setItem('myToken', myToken_serialized);
+                    //this.$router.push('/');
+                // } else {
+                //     console.log(error);
+                    //this.errorMsg = data.error
+                // }  
             })
             .catch((error) => {
                 console.log("Error: ", error);
             });
             console.log(this.email, this.password);
             this.email = "";
-            this.password = "";
+            this.password = "";*/
+        },
+        removeMsg() {
+            this.errorMsg = '';
         }
     }
 }
@@ -122,7 +146,7 @@ export default {
         text-align: center;
     }
 
-    @media (max-width: 700px) {
+    @media (max-width: 765px) {
         form {
             margin-top: 230px;
         }

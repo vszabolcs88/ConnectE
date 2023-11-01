@@ -56,7 +56,7 @@
 
       async deleteAccount() {
         const data = {password: this.password};
-        console.log(data);
+        //console.log(data);
         let myToken_deserialized = JSON.parse(localStorage.getItem("myToken"));
         if(myToken_deserialized !== null || undefined) {
           try { 
@@ -73,6 +73,7 @@
             this.username = '';
             this.email = '';
             localStorage.clear();
+            console.log("Profile deleted");
             this.$router.push('/login');
           } catch(err) {
             console.log(err);
@@ -113,4 +114,10 @@
   .button:hover {
     color: white;
   }
+
+  @media (max-width: 765px) {
+    .profile__container {
+            margin-top: 230px;
+        }
+    }
 </style>

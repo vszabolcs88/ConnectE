@@ -53,14 +53,16 @@ exports.loginUser =  (req, res, next) => {
   let sql = "SELECT * FROM users WHERE email = ?";
   let query = db.query(sql, req.body.email, (err, result) => {
     if(err) throw err;
-    if(result === null) {
-      return res.status(401).send('Cannot find user')
+    
+    if(result.length === 0) {
+      console.log('Wrong email address!')
+      return res.status(401).json({error: 'Wrong email address!'});
     }
 
-    //convert raw data packet object to JSON
+    // convert raw data packet object to JSON
     let data = JSON.parse(JSON.stringify(result));
 
-    //check a password
+    // check a password
     try {
       bcrypt.compare(req.body.password, data[0].password, function(err, valid) {
         if(valid == true) {
@@ -76,6 +78,7 @@ exports.loginUser =  (req, res, next) => {
             });
         } else {
             console.log("Incorrect password!")
+            return res.status(401).json({error: 'Incorrect password'});
         }
       });
     } catch {

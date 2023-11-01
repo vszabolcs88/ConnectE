@@ -8,11 +8,10 @@
       <router-link to="/Create">Create</router-link>
       <router-link to="/Profile">Profile</router-link>
       <router-link to="/Login">Login</router-link>
-      <span class="signout" @click="signOut">
+      <!-- <span class="signout" @click="signOut">
         <font-awesome-icon icon="fa-solid fa-right-from-bracket" size="lg" />
-      </span>
-      <!-- <button class="signout" @click="signOut">Sign out</button>
-       -->
+      </span> -->
+      <span class="signout" @click="signOut">Sign out</span>
     </div>
   </nav>
   <router-view/>
@@ -25,6 +24,12 @@
       localStorage.clear();
       this.user = null;
       this.$router.push('/login');
+    },
+  created() {
+      let myToken_deserialized = JSON.parse(localStorage.getItem('myToken'));
+      if(myToken_deserialized  === null || undefined){
+        this.$router.push('/login')
+      }
     }
   }
  }
@@ -44,9 +49,9 @@ body {
   background: #d1d1d1;
 }
 nav {
-  position: sticky;
+  /* position: sticky;
   left: 0;
-  top: 0;
+  top: 0; */
   width: 100vw;
   display: flex;
   flex-direction: row;
@@ -112,13 +117,19 @@ nav .logo {
   width: 80%;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 765px) {
   nav {
     display: block;
     width: 100%;
     position: absolute;
     left: 0;
     top: 0;
+    padding-top: 0;
+  }
+  nav .container__logo {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0px;
   }
 
   .container__links {
@@ -130,7 +141,12 @@ nav .logo {
     display: block;
     margin-left: 0px;
     border-radius: 0px;
-    width: 100%;
+    /* width: 100%; */
+  }
+  .signout {
+    display: block;
+    margin: 0;
+    border-radius: 0;
   }
 }
 </style>

@@ -68,6 +68,7 @@ exports.deleteAccount = (req, res, next) => {
                     if(err) throw err;
                     console.log('user was deleted from users');
                 });
+                res.status(200).json({message: 'Deleted!'});
             } else {
                 //console.log('user invalid');
                 res.status(400).json({ error: 'Invalid request' });

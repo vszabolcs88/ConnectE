@@ -64,16 +64,17 @@ export default {
         row-gap: 16px;
     }
 
-  @media (max-width: 700px) {
+  @media (max-width: 765px) {
     .main__container {
       width: 100vw;
+      overflow: hidden;
     }
 
     .main {
       display: block;
       width: 100%;
       padding: 0;
-      margin-top: 210px;
+      margin-top: 220px;
     }
 
     .main__aside {
