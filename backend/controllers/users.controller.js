@@ -16,7 +16,7 @@ exports.createUser = async (req, res, next) => {
       if (err) throw err;
       if (existEmail.length > 0) {
         console.log("User already exists");
-        res.status(409).json({ "error": "User and email already exists" });
+        res.status(409).json({ error: "User and email already exists" });
       } else {
         // Hash the password and insert the user
         bcrypt.genSalt(10, (err, salt) => {

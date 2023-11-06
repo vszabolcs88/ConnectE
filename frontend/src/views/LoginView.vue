@@ -5,7 +5,7 @@
         <input type="text" v-model="email" placeholder="Email" class="custom-input" @click="removeMsg" required>
         <label>Password:</label>
         <input type="password" v-model="password" placeholder="Password" class="custom-input" @click="removeMsg" required>
-        <p>{{ errorMsg }}</p>
+        <p class="error-msg">{{ errorMsg }}</p>
         <div class="buttons">
             <input type="submit" value="Login">
             <p>
@@ -133,9 +133,13 @@ export default {
         color: white;
     }
 
+    .error-msg {
+    color: #D8000C;
+    }
+
     .custom-input::placeholder {
     color: #b6b6b6;
-  }
+    }
 
     .buttons {
         display: flex;

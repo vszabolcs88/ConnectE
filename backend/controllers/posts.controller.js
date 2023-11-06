@@ -28,8 +28,8 @@ exports.getAll = (req, res, next) => {
 exports.getPost = (req, res, next) => {
     let userId = req.auth.userId;
     let postId = req.params.id;
-    console.log(userId);
-    console.log(postId);
+   //console.log(userId);
+    //console.log(postId);
     let sql = `SELECT * FROM posts WHERE post_id= ${req.params.id}`;
     let query = db.query(sql,(err, result) => {
     if(err) throw err;

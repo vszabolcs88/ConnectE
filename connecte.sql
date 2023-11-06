@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 01, 2023 at 01:49 PM
+-- Generation Time: Nov 05, 2023 at 02:12 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -41,10 +41,9 @@ CREATE TABLE `posts` (
 --
 
 INSERT INTO `posts` (`post_id`, `title`, `body`, `imgUrl`, `userId`, `date_published`) VALUES
-(179, 'Bookshelf', 'Check out my new bookshelf!!!', 'http://localhost:3000/images/pexels-pixabay-159711.jpg1687857704054.jpg', '20', '2023-06-27 10:21:44'),
-(180, 'Travelling to Budapest', 'Outstanding architecture, illustrious history, and unbeatable culture: there’s so much to discover on Budapest holidays', 'http://localhost:3000/images/pexels-szabolcs-toth-3148096.jpg1687858029732.jpg', '20', '2023-06-27 10:27:09'),
-(230, 'Post to delete', 'dummy text', 'http://localhost:3000/images/Dr_Trouble_Double_Oak_Smoked_Chilli_Sauce.jpg1690360554780.jpg', '20', '2023-07-26 09:35:54'),
-(234, 'Delete', 'Post to delete', NULL, '41', '2023-10-25 21:20:27');
+(238, 'My new bookshelf!!!', 'Excited to share my newest addition to the home - a beautiful bookshelf! It\'s the perfect spot to display my favorite reads, and I can\'t wait to organize and fill it with all my literary treasures.', 'http://localhost:3000/images/pexels-pixabay-159711.jpg1699145167089.jpg', '43', '2023-11-05 00:46:07'),
+(239, 'Journey', 'Exploring new horizons and embracing the journey of a lifetime! Traveling opens our hearts and minds to diverse cultures, creating memories that last a lifetime. ', 'http://localhost:3000/images/pexels-szabolcs-toth-3148096.jpg1699145345426.jpg', '43', '2023-11-05 00:49:05'),
+(240, 'A loyal companion by your side.', 'Meet my furry best friend, always there to brighten my day with their unconditional love and endless energy! ', 'http://localhost:3000/images/pexels-stephanie-casanova-15347387.jpg1699145642633.jpg', '44', '2023-11-05 00:54:02');
 
 -- --------------------------------------------------------
 
@@ -63,13 +62,9 @@ CREATE TABLE `read_table` (
 --
 
 INSERT INTO `read_table` (`read_id`, `read_userId`, `read_postId`) VALUES
-(5, 19, 179),
-(77, 19, 180),
-(78, 20, 180),
-(80, 20, 179),
-(81, 20, 230),
-(86, 41, 234),
-(87, 19, 230);
+(92, 43, 238),
+(93, 43, 239),
+(94, 44, 240);
 
 -- --------------------------------------------------------
 
@@ -90,9 +85,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `account_created`) VALUES
-(19, 'robert', 'robert@gmail.com', '$2b$10$6OaYSqB4dF4Lo6ybn1gZKOJcP6BRnraT5TCbhOFNd3i23oY4ynbPC', '2023-06-14 18:06:10'),
-(20, 'szabolcs', 'szabolcs@gmail.com', '$2b$10$N4nao4YtEBwMZUzZchJF7.YyKzzimSbTfUBk8MV9UVIPf0HinBqDu', '2023-06-14 18:06:10'),
-(41, 'test', 'test@gmail.com', '$2b$10$PiiTRDMK54PSqc.vO8yTEetdIWA8mfiVDG9pbJNVw5hNzS8nwi8wG', '2023-10-25 21:19:33');
+(43, 'szabolcs', 'szabolcs@example.com', '$2b$10$OkHyj5ZAlZlVT.2zFf73eOe.RIO2nEygr3T6Tvsfb8rnneU9asS3m', '2023-11-05 00:29:13'),
+(44, 'robert', 'robert@example.com', '$2b$10$4Mf6MJgv6q/8wgo8fCw3Eu5byyprIOQNrl03ISMCNbkCRK.4SA8oy', '2023-11-05 00:49:54');
 
 --
 -- Indexes for dumped tables
@@ -124,19 +118,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=235;
+  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=241;
 
 --
 -- AUTO_INCREMENT for table `read_table`
 --
 ALTER TABLE `read_table`
-  MODIFY `read_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+  MODIFY `read_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

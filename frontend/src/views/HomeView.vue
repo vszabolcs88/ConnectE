@@ -46,6 +46,10 @@ export default {
     top: 0;
     z-index: -3;
   }
+
+  .image_background {
+    height: 100vh;
+  }  
   .main {
     display: flex;
     justify-content: flex-start;

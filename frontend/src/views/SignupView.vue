@@ -1,16 +1,15 @@
 <template>
-    <form @submit.prevent ="submitUser" class="login">
+    <form @submit.prevent ="submitUsers" class="login">
         <div class="signup__title">create an account</div>
         <label>Username:</label>
         <input type="text" v-model="username" placeholder="Username" class="custom-input" required>
-        <p class="error-msg">{{ error }}</p>
         <label>Email:</label>
         <input type="text" v-model="email" placeholder="Email" class="custom-input" required>
-        <p class="error-msg">{{ error }}</p>
         <label>Password:</label>
         <input type="password" v-model="password" placeholder="Password" class="custom-input" required>
+        <p class="error-msg">{{ error }}</p>
         <div class="buttons">
-            <input type="submit" value="Sign up">
+            <input type="submit" value="Sign up" >
         </div>
     </form>
 </template>
@@ -27,7 +26,7 @@ export default {
         }
     },
     methods: {
-        async submitUser(){
+        async submitUsers(){
             const data = {username: this.username, email: this.email, password: this.password};
             try{
                 const response = await axios.post("http://localhost:3000/api/signup", JSON.stringify(data), {
@@ -60,6 +59,6 @@ export default {
     color: #b6b6b6;
   }
   .error-msg {
-    color: red;
+    color: #D8000C;
   }
 </style>
